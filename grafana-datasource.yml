@@ -1,0 +1,9 @@
+apiVersion: 1
+datasources:
+  - name: feldera
+    uid: feldera
+    type: prometheus
+    url: http://localhost:9090
+    isDefault: true
+    version: 1
+    editable: true

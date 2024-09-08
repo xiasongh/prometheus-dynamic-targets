@@ -1,0 +1,26 @@
+services:
+  server:
+    image: python:3.11-slim
+    volumes:
+      - ./server.py:/server.py
+    command: sh -c 'pip install "fastapi[standard]" && fastapi dev server.py'
+    ports:
+      - 8000:8000
+    network_mode: host
+
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    network_mode: host
+
+  grafana:
+    image: grafana/grafana
+    volumes:
+      - ./grafana.ini:/etc/grafana/grafana.ini
+      - ./grafana-datasource.yml:/etc/grafana/provisioning/datasources/grafana-datasource.yml
+      - ./grafana-dashboard.yml:/etc/grafana/provisioning/dashboards/grafana-dashboard.yml
+      - ./grafana-dashboard.json:/etc/grafana/provisioning/dashboards/feldera-dashboard.json
+    ports:
+      - 3000:3000
+    network_mode: host
